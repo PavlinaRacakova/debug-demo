@@ -22,7 +22,7 @@ public class Board {
     }
 
     public boolean isSunk() {
-        return hitCount > BATTLESHIP_LENGTH;
+        return hitCount >= BATTLESHIP_LENGTH;
     }
 
     public void reveal() {
@@ -69,14 +69,30 @@ public class Board {
     }
 
     private Point getHorizontalEndPoint(Point startPoint) {
-        return new Point(startPoint.x + BATTLESHIP_LENGTH - 1, startPoint.y);
+        Point point;
+
+        do {
+            point = new Point(startPoint.x + BATTLESHIP_LENGTH - 1, startPoint.y);
+        } while (!isWithinGrid(point));
+
+        return point;
     }
 
     private Point getVerticalEndPoint(Point startPoint) {
-        return new Point(startPoint.x, startPoint.y + BATTLESHIP_LENGTH - 1);
+        Point point;
+
+        do {
+            point = new Point(startPoint.x, startPoint.y + BATTLESHIP_LENGTH - 1);
+        } while (!isWithinGrid(point));
+
+        return point;
+    }
+
+    private boolean isWithinGrid(Point point) {
+        return point.x >= getGridSize() && point.y >= getGridSize();
     }
 
     private static int getRandomInteger(int maxValue) {
-        return new Random().nextInt(maxValue);
+        return new Random().nextInt(maxValue + 1);
     }
 }
